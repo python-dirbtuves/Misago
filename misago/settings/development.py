@@ -1,12 +1,15 @@
-import sys
+import os.path
+
 from misago.settings.base import *
+
+MISAGO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 # Allow debug?
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # Board address
-BOARD_ADDRESS = 'http://somewhere.com'
+BOARD_ADDRESS = 'http://localhost:8000'
 
 # Admin control panel path
 # Leave this setting empty or remove it to turn admin panel off.
@@ -31,12 +34,8 @@ SECRET_KEY = 'secret-key'
 # Database connection
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Can be either 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'database.db', # Name of the database or the path to the database file if using sqlite3.
-        'USER': '', # Not used with sqlite3.
-        'PASSWORD': '', # Not used with sqlite3.
-        'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '', # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'misago_0_5',
     }
 }
 
@@ -64,9 +63,9 @@ HAYSTACK_CONNECTIONS = {
 }
 
 # Cookies configuration
-COOKIES_DOMAIN = '192.168.33.10' # E.g. a cookie domain for "www.mysite.com" or "forum.mysite.com" is ".mysite.com"
+COOKIES_DOMAIN = '127.0.0.1' # E.g. a cookie domain for "www.mysite.com" or "forum.mysite.com" is ".mysite.com"
 COOKIES_PATH = '/'
-COOKIES_PREFIX = '' # Allows you to avoid cookies collisions with other applications.
+COOKIES_PREFIX = 'm1s4g0' # Allows you to avoid cookies collisions with other applications.
 COOKIES_SECURE = False # Set this to true if, AND ONLY IF, you are using SSL on your forum.
 
 # Sessions configuration
@@ -88,7 +87,7 @@ LANGUAGE_CODE = 'en_US'
 # Absolute filesystem path to the directory that will hold publicly available media uploaded by users.
 # Always use forward slashes, even on Windows.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/vagrant/media/'
+MEDIA_ROOT = os.path.join(MISAGO_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -98,14 +97,14 @@ MEDIA_URL = '/media/'
 # Absolute filesystem path to the directory that will hold post attachments.
 # Always use forward slashes, even on Windows.
 # Example: "/home/media/media.lawrence.com/attachments/"
-ATTACHMENTS_ROOT = '/vagrant/attachments/'
+ATTACHMENTS_ROOT = os.path.join(MISAGO_DIR, 'attachments')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # Always use forward slashes, even on Windows.
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(MISAGO_DIR, 'var', 'www', 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -117,7 +116,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     # Make sure directory containing avatars is located under first directory on list
-    '/vagrant/static/',
+    os.path.join(MISAGO_DIR, 'static'),
 )
 
 # E-mail host
@@ -154,7 +153,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/vagrant/templates'
+    'templates'
 )
 
 # List of installed themes
@@ -170,25 +169,7 @@ MOBILE_SUBDOMAIN = ''
 MOBILE_TEMPLATES = ''
 
 # Name of root urls configuration
-ROOT_URLCONF = 'deployment.urls'
-
-# Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'deployment.wsgi.application'
-
-# Empty secret key if its known
-if SECRET_KEY == 'yaobeifl1a6hf&3)^uc#^vlu1ud7xp^+*c5zoq*tf)fvs#*o$#':
-    SECRET_KEY = ''
+ROOT_URLCONF = 'misago.urls'
 
 # Disable Jinja2 for django debug toolbar templates
-if DEBUG:
-    DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"(?!debug_toolbar/).*"
-
-# Override config if we are in tests
-if 'test' in sys.argv:
-    if not SECRET_KEY:
-        SECRET_KEY = 'SECRET4TESTS'
-    DATABASES['default'] = {'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'db4testing'}
-    CACHES['default'] = {'BACKEND': 'django.core.cache.backends.dummy.DummyCache'}
-    SKIP_SOUTH_TESTS = True
-    MEDIA_URL = "http://media.domain.com/"
-    HAYSTACK_CONNECTIONS = {'default': {'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',},}
+DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"(?!debug_toolbar/).*"

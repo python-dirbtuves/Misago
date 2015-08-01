@@ -226,3 +226,5 @@ Icon
 /misago/media/
 /misago/static/
 /misago/templates/
+/manage.cfg
+/venv/
