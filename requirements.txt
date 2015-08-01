@@ -15,3 +15,4 @@ Unidecode
 whoosh<2.6
 coverage
 django-nose
+django-webtest
