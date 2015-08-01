@@ -10,6 +10,7 @@ help:
 	@echo 'make            set up the development environment'
 	@echo 'make run        start the development web server'
 	@echo 'make test       run project test suite'
+	@echo 'make test-fast  run project test suite with in momory sqlite database settings'
 
 ubuntu:
 	sudo apt-get update
@@ -17,7 +18,16 @@ ubuntu:
 	sudo apt-get -y install build-essential python-dev python-virtualenv
 
 run: $(DJANGO) ; $(PYTHON) manage.py runserver
-test: $(DJANGO) ; $(PYTHON) manage.py test --nologcapture
+
+test: $(DJANGO)
+	$(VENV)/bin/coverage erase
+	$(VENV)/bin/coverage run --source=misago manage.py test --nologcapture misago
+	$(VENV)/bin/coverage report --show-missing
+
+test-fast: $(DJANGO)
+	$(VENV)/bin/coverage erase
+	$(VENV)/bin/coverage run --source=misago manage.py test --settings=misago.settings.fasttesting --nologcapture misago
+	$(VENV)/bin/coverage report --show-missing
 
 manage.cfg:
 	echo '[default]' > $@

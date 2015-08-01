@@ -204,8 +204,12 @@ INSTALLED_APPS = (
     'mptt', # Modified Pre-order Tree Transversal - allows us to nest forums
     'haystack', # Search engines bridge
     'debug_toolbar', # Debug toolbar'
+    'django_nose', # Test runner
     'misago', # Misago Forum App
 )
+
+# See: https://django-nose.readthedocs.org/en/latest/installation.html
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Stopwatch target file
 STOPWATCH_LOG = ''

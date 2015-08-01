@@ -1,0 +1,7 @@
+[run]
+omit =
+    misago/settings/*
+    */fixtures/*
+    */migrations/*
+    */tests/*
+    */__init__.py
