@@ -1,11 +1,11 @@
-from django.core.management import call_command
-
 from django_webtest import WebTest
+
+from misago.utils.testing import load_fixtures
 
 
 class IndexPageTests(WebTest):
 
     def test_index(self):
-        call_command('syncfixtures', quiet=1)
+        load_fixtures()
         resp = self.app.get('/')
         self.assertEqual(resp.status_int, 200)
