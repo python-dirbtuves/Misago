@@ -37,7 +37,7 @@ manage.cfg:
 	echo 'settings = misago.settings.testing' >> $@
 
 
-$(PYTHON): ; virtualenv --no-site-packages --python=python $@
+$(PYTHON): ; virtualenv --no-site-packages --python=python $(VENV)
 $(DJANGO): $(PYTHON) manage.cfg requirements.txt setup.py ; $(VENV)/bin/pip install -e .[postgresql] && touch -c $@
 
 .PHONY: all help ubuntu run test
