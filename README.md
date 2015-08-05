@@ -1,3 +1,5 @@
+Ubuntu-lt branch build status: [![Build Status](https://travis-ci.org/python-dirbtuves/Misago.svg)](https://travis-ci.org/python-dirbtuves/Misago) [![Coverage Status](https://coveralls.io/repos/python-dirbtuves/Misago/badge.svg?branch=ubuntu-lt&service=github)](https://coveralls.io/github/python-dirbtuves/Misago?branch=ubuntu-lt)
+
 # Misago [![Build Status](https://travis-ci.org/rafalp/Misago.png?branch=0.5.x)](https://travis-ci.org/rafalp/Misago)
 
 Misago is an internet forum application written in Python and using Django as its foundation. Visit the project homepage for discussion and a live demo: <http://misago-project.org>
