@@ -6,7 +6,7 @@ install:
   - pip install python-coveralls
 script:
   - coverage erase
-  - coverage run --source=misago manage.py test --nologcapture misago
+  - coverage run --source=misago manage.py test  --settings=misago.settings.testing --nologcapture misago
   - coverage report --show-missing
 after_success:
   - coveralls
