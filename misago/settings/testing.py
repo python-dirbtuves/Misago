@@ -15,3 +15,5 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
+
+COOKIES_DOMAIN = 'localhost'

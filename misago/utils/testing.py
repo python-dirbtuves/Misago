@@ -1,6 +1,7 @@
 from django.core.management import call_command
 
 from misago.models import Forum, ForumRole, Role
+from misago.models import User
 
 
 def fix_hardcoded_role(forums, forum_roles, role_name):
@@ -42,3 +43,26 @@ def fix_hardoced_fixtures():
 def load_fixtures():
     call_command('syncfixtures', quiet=1)
     fix_hardoced_fixtures()
+
+
+def login(test, username='registered'):
+    username_roles = {
+        'administrator': ['Administrator'],
+        'moderator': ['Moderator'],
+        'registered': [],
+    }
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        user = User.objects.create_user(username, '%s@example.com' % username, 'pass')
+
+        for role_name in username_roles.get(username, []):
+            user.roles.add(Role.objects.get(name=role_name))
+
+    resp = test.app.get('/signin/')
+    resp.forms['signin-form']['user_email'] = 'registered@example.com'
+    resp.forms['signin-form']['user_password'] = 'pass'
+    resp = resp.forms['signin-form'].submit()
+
+    return user
